@@ -44,18 +44,19 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(59, 265);
+            textBox1.Location = new Point(12, 265);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.ScrollBars = ScrollBars.Vertical;
-            textBox1.Size = new Size(660, 173);
+            textBox1.Size = new Size(1216, 173);
             textBox1.TabIndex = 1;
+            textBox1.Text = "asda";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1240, 450);
             Controls.Add(textBox1);
             Controls.Add(Start);
             Name = "Form1";

@@ -1,9 +1,15 @@
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Data.SQLite;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 namespace Getlink
 {
     public partial class Form1 : Form
     {
+        private SQLiteConnection sqlite;
+        private int currentId = 1;
         [DllImport("user32.dll")]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
         [DllImport("user32.dll")]
@@ -51,11 +57,18 @@ namespace Getlink
             SetForegroundWindow(hWnd);
         }
         //根据坐标点击位置
-
+        public static void SendMail(string recipent,string subject,string body)
+        { }
 
         public Form1()
         {
             InitializeComponent();
+            if (!File.Exists("./Links.db"))
+            {
+                SQLiteConnection.CreateFile("Links.db");
+            }
+            sqlite = new SQLiteConnection("Data Source=Links.db;");
+            sqlite.Open();
         }
         private void Click_1(int x, int y)
         {
@@ -70,8 +83,24 @@ namespace Getlink
             string clipboardText = Clipboard.GetText();
             textBox1.Text += clipboardText;
             textBox1.Text += "\n";
-            File.AppendAllText("link.txt", Clipboard.GetText());
-            File.AppendAllText("link.txt", "\n");
+            /*File.AppendAllText("link.txt", Clipboard.GetText());
+            File.AppendAllText("link.txt", "\n");*/
+            string sql = $"SELECT Link FROM LinksTable WHERE Id = {currentId};";
+            SQLiteCommand command = new SQLiteCommand(sql, sqlite);
+            object result = command.ExecuteScalar();
+
+            if (result != null)
+            {
+                string existingLink = result.ToString();
+                if (!existingLink.Equals(clipboardText))
+                {
+                    sql = $"UPDATE LinksTable SET Link = '{clipboardText}' WHERE Id = {currentId};";
+                    command = new SQLiteCommand(sql, sqlite);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            currentId++;
             Thread.Sleep(1000);
             SetCursorPos(1163, 70);
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
@@ -90,8 +119,24 @@ namespace Getlink
             string clipboardText = Clipboard.GetText();
             textBox1.Text += clipboardText;
             textBox1.Text += "\n";
-            File.AppendAllText("link.txt", Clipboard.GetText());
-            File.AppendAllText("link.txt", "\n");
+            /*File.AppendAllText("link.txt", Clipboard.GetText());
+            File.AppendAllText("link.txt", "\n");*/
+            string sql = $"SELECT Link FROM LinksTable WHERE Id = {currentId};";
+            SQLiteCommand command = new SQLiteCommand(sql, sqlite);
+            object result = command.ExecuteScalar();
+
+            if (result != null)
+            {
+                string existingLink = result.ToString();
+                if (!existingLink.Equals(clipboardText))
+                {
+                    sql = $"UPDATE LinksTable SET Link = '{clipboardText}' WHERE Id = {currentId};";
+                    command = new SQLiteCommand(sql, sqlite);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            currentId++;
             Thread.Sleep(1000);
             SetCursorPos(1163, 70);
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
@@ -110,8 +155,24 @@ namespace Getlink
             string clipboardText = Clipboard.GetText();
             textBox1.Text += clipboardText;
             textBox1.Text += "\n";
-            File.AppendAllText("link.txt", Clipboard.GetText());
-            File.AppendAllText("link.txt", "\n");
+            /*File.AppendAllText("link.txt", Clipboard.GetText());
+            File.AppendAllText("link.txt", "\n");*/
+            string sql = $"SELECT Link FROM LinksTable WHERE Id = {currentId};";
+            SQLiteCommand command = new SQLiteCommand(sql, sqlite);
+            object result = command.ExecuteScalar();
+
+            if (result != null)
+            {
+                string existingLink = result.ToString();
+                if (!existingLink.Equals(clipboardText))
+                {
+                    sql = $"UPDATE LinksTable SET Link = '{clipboardText}' WHERE Id = {currentId};";
+                    command = new SQLiteCommand(sql, sqlite);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            currentId++;
             Thread.Sleep(1000);
             SetCursorPos(1163, 70);
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
@@ -132,13 +193,11 @@ namespace Getlink
             Click_2(277, 342);
             Click_2(277, 310);
             Click_2(277, 275);
-            Click_2(396, 407);
-            Click_2(396, 375);
-            Click_2(396, 342);
-            Click_2(396, 310);
-            Click_2(396, 275);
-
-
+            Click_3(396, 407);
+            Click_3(396, 375);
+            Click_3(396, 342);
+            Click_3(396, 310);
+            Click_3(396, 275);
         }
     }
 }
