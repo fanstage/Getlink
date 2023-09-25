@@ -50,7 +50,6 @@
             textBox1.ScrollBars = ScrollBars.Vertical;
             textBox1.Size = new Size(1216, 173);
             textBox1.TabIndex = 1;
-            textBox1.Text = "asda";
             // 
             // Form1
             // 
